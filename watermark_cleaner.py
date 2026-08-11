@@ -10,30 +10,65 @@ from datetime import datetime
 
 # Set of known invisible or problematic formatting characters to REMOVE
 INVISIBLE_CHARS_TO_REMOVE = {
-    '\u200B',  # Zero Width Space
-    '\u200C',  # Zero Width Non-Joiner
-    '\u200D',  # Zero Width Joiner
-    '\u2060',  # Word Joiner
-    '\u00AD',  # Soft Hyphen
-    '\u200E',  # Left-to-Right Mark
-    '\u200F',  # Right-to-Left Mark
-    '\u202A',  # Left-to-Right Embedding
-    '\u202B',  # Right-to-Left Embedding
-    '\u202C',  # Pop Directional Formatting
-    '\u202D',  # Left-to-Right Override
-    '\u202E',  # Right-to-Left Override
-    '\u2061',  # Function Application
-    '\u2062',  # Invisible Times
-    '\u2063',  # Invisible Separator
-    '\u2064',  # Invisible Plus
+    # 零宽字符
+    '\u200B',  # Zero Width Space (零宽空格)
+    '\u200C',  # Zero Width Non-Joiner (零宽非连接符)
+    '\u200D',  # Zero Width Joiner (零宽连接符)
+    '\u2060',  # Word Joiner (词连接符)
     '\uFEFF',  # Zero Width No-Break Space (BOM) - remove only if not at start
+    
+    # 软连字符
+    '\u00AD',  # Soft Hyphen (软连字符)
+    
+    # 方向控制字符
+    '\u200E',  # Left-to-Right Mark (从左到右标记)
+    '\u200F',  # Right-to-Left Mark (从右到左标记)
+    '\u202A',  # Left-to-Right Embedding (从左到右嵌入)
+    '\u202B',  # Right-to-Left Embedding (从右到左嵌入)
+    '\u202C',  # Pop Directional Formatting (弹出方向格式)
+    '\u202D',  # Left-to-Right Override (从左到右覆盖)
+    '\u202E',  # Right-to-Left Override (从右到左覆盖)
+    '\u2066',  # Left-to-Right Isolate (从左到右隔离)
+    '\u2067',  # Right-to-Left Isolate (从右到左隔离)
+    '\u2068',  # First Strong Isolate (首个强隔离)
+    '\u2069',  # Pop Directional Isolate (弹出方向隔离)
+    '\u061C',  # Arabic Letter Mark (阿拉伯字母标记)
+    
+    # 数学不可见字符
+    '\u2061',  # Function Application (函数应用)
+    '\u2062',  # Invisible Times (不可见乘号)
+    '\u2063',  # Invisible Separator (不可见分隔符)
+    '\u2064',  # Invisible Plus (不可见加号)
+    
+    # 组合用字符
+    '\u034F',  # Combining Grapheme Joiner (组合用字形连接符)
+    
+    # 变体选择符 (VS1-VS16)
+    '\uFE00', '\uFE01', '\uFE02', '\uFE03', '\uFE04', '\uFE05', '\uFE06', '\uFE07',
+    '\uFE08', '\uFE09', '\uFE0A', '\uFE0B', '\uFE0C', '\uFE0D', '\uFE0E', '\uFE0F',
+    
+    # 蒙古文变体选择符
+    '\u180B', '\u180C', '\u180D', '\u180E', '\u180F',
 }
-# Add category Cf (Format) chars, excluding the ones above and whitespace/controls already handled
-# Be cautious with this, might include things needed by some scripts (e.g., Arabic shaping)
-# for i in range(sys.maxunicode):
-#     char = chr(i)
-#     if unicodedata.category(char) == 'Cf' and char not in INVISIBLE_CHARS_TO_REMOVE:
-#         INVISIBLE_CHARS_TO_REMOVE.add(char)
+
+# 标签字符 (U+E0001-U+E007F) - 用于AI水印和元数据
+# 这些字符需要单独处理，因为它们是多字节UTF-8字符
+TAG_CHARACTERS = set()
+TAG_CHARACTERS.add('\U000E0001')  # Tag Identifier
+for i in range(0x0020, 0x007F):
+    TAG_CHARACTERS.add(chr(0xE0000 + i))  # Tag characters
+
+# 合并所有需要移除的不可见字符
+INVISIBLE_CHARS_TO_REMOVE |= TAG_CHARACTERS
+
+# 扩展变体选择符 (VS17-VS256) - 用于Glassworm攻击
+# 这些字符需要单独处理，因为它们是多字节UTF-8字符
+EXTENDED_VARIATION_SELECTORS = set()
+for i in range(0xE0100, 0xE01EF + 1):
+    EXTENDED_VARIATION_SELECTORS.add(chr(i))
+
+# 合并所有需要移除的不可见字符
+INVISIBLE_CHARS_TO_REMOVE |= EXTENDED_VARIATION_SELECTORS
 
 
 # ASCII Control Characters (0x00-0x1F) + DEL (0x7F) to REMOVE
@@ -88,7 +123,112 @@ def is_chinese_char(char: str) -> bool:
     cp = ord(char)
     return any(start <= cp <= end for start, end in CHINESE_CHAR_RANGES) or cp in CHINESE_PUNCTUATION_EXTRA
 
-# --- Detection Function ---
+# --- 检测辅助函数 ---
+
+def _check_invisible_char(char: str, idx: int, findings: dict) -> bool:
+    """检查是否为不可见/格式化字符（排除索引0处的BOM）。"""
+    if char in INVISIBLE_CHARS_TO_REMOVE:
+        if not (char == '\uFEFF' and idx == 0):
+            findings["details"]["invisible_chars"].append({
+                "index": idx, "char": char, "codepoint": f"U+{ord(char):04X}",
+                "description": "已知的不可见/格式化字符"
+            })
+            return True
+    return False
+
+
+def _check_ascii_control_char(char: str, idx: int, findings: dict) -> bool:
+    """检查是否为不允许的ASCII控制字符。"""
+    if char in ASCII_CONTROL_CHARS_TO_REMOVE:
+        findings["details"]["ascii_control_chars"].append({
+            "index": idx, "char": repr(char), "codepoint": f"U+{ord(char):04X}",
+            "description": "不允许的ASCII控制字符"
+        })
+        return True
+    return False
+
+
+def _check_non_standard_whitespace(char: str, idx: int, findings: dict) -> bool:
+    """检查是否为非标准空白字符。"""
+    if char.isspace() and char not in STANDARD_WHITESPACE:
+        findings["details"]["non_standard_whitespace"].append({
+            "index": idx, "char": repr(char), "codepoint": f"U+{ord(char):04X}",
+            "description": "非标准空白字符"
+        })
+        return True
+    return False
+
+
+def _check_normalized_char(char: str, idx: int, findings: dict, skip: bool) -> bool:
+    """检查NFKC标准化后是否改变（潜在同形字符/兼容性字符）。"""
+    if skip or char.isspace() or is_chinese_char(char):
+        return False
+    normalized = unicodedata.normalize('NFKC', char)
+    if char != normalized and normalized:
+        # 避免将合法多字符分解（如 'ﬁ' -> 'fi'）标记为同形字符
+        is_common = len(normalized) > 1 and all(
+            'a' <= c.lower() <= 'z' or c.isdigit() or c in ' -' for c in normalized
+        )
+        if not is_common:
+            findings["details"]["normalized_chars"].append({
+                "index": idx, "original_char": char, "original_codepoint": f"U+{ord(char):04X}",
+                "normalized_char": normalized,
+                "normalized_codepoint": " ".join(f"U+{ord(c):04X}" for c in normalized),
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            })
+        return True
+    return False
+
+
+def _find_excessive_whitespace(text: str) -> list[dict]:
+    """查找所有连续>=2的空白字符序列。"""
+    results = []
+    for match in EXCESSIVE_WHITESPACE_REGEX.finditer(text):
+        results.append({
+            "start_index": match.start(),
+            "end_index": match.end(),
+            "sequence": repr(match.group(0)),
+            "length": len(match.group(0)),
+            "description": "连续的多个空白字符"
+        })
+    return results
+
+
+# --- 创建空的检测结果结构 ---
+
+def _make_empty_findings() -> dict:
+    """创建一个空的检测结果字典。"""
+    return {
+        "metadata": {},
+        "summary": {
+            "invisible_chars": 0,
+            "ascii_control_chars": 0,
+            "non_standard_whitespace": 0,
+            "excessive_whitespace_sequences": 0,
+            "normalized_chars": 0,
+            "total_anomalies_found": 0,
+        },
+        "details": {
+            "invisible_chars": [],
+            "ascii_control_chars": [],
+            "non_standard_whitespace": [],
+            "excessive_whitespace_sequences": [],
+            "normalized_chars": [],
+        }
+    }
+
+
+def _update_summary(findings: dict) -> None:
+    """更新汇总计数。"""
+    for key in findings["summary"]:
+        if key != "total_anomalies_found":
+            findings["summary"][key] = len(findings["details"][key])
+    findings["summary"]["total_anomalies_found"] = sum(
+        findings["summary"][k] for k in findings["summary"] if k != "total_anomalies_found"
+    )
+
+
+# --- 检测主函数 ---
 
 def detect_potential_watermarks(original_text: str) -> dict:
     """
@@ -103,102 +243,101 @@ def detect_potential_watermarks(original_text: str) -> dict:
     if not isinstance(original_text, str):
         raise TypeError("输入必须是字符串类型")
 
-    findings = {
-        "metadata": {}, # Will be added later
-        "summary": {
-            "invisible_chars": 0,
-            "ascii_control_chars": 0,
-            "non_standard_whitespace": 0,
-            "excessive_whitespace_sequences": 0,
-            "normalized_chars": 0, # Potential homoglyphs/compatibility chars changed by NFKC
-            "total_anomalies_found": 0,
-        },
-        "details": {
-            "invisible_chars": [],
-            "ascii_control_chars": [],
-            "non_standard_whitespace": [],
-            "excessive_whitespace_sequences": [],
-            "normalized_chars": [],
-        }
-    }
+    findings = _make_empty_findings()
 
-    # 1. Check for specific invisible and control characters
+    # 1. 逐字符检测：不可见字符、控制字符、非标准空白、NFKC变化
     for i, char in enumerate(original_text):
-        codepoint = f"U+{ord(char):04X}"
-        anomaly_found = False
+        flagged = False
+        flagged |= _check_invisible_char(char, i, findings)
+        flagged |= _check_ascii_control_char(char, i, findings)
+        flagged |= _check_non_standard_whitespace(char, i, findings)
+        _check_normalized_char(char, i, findings, skip=flagged)
 
-        # 检查不可见/格式化字符（排除索引0处的BOM）
-        if char in INVISIBLE_CHARS_TO_REMOVE:
-            if not (char == '\uFEFF' and i == 0):
-                findings["details"]["invisible_chars"].append({
-                    "index": i, "char": char, "codepoint": codepoint,
-                    "description": "已知的不可见/格式化字符"
-                })
-                anomaly_found = True
+    # 2. 扫描连续空白序列
+    findings["details"]["excessive_whitespace_sequences"] = _find_excessive_whitespace(original_text)
 
-        # 检查ASCII控制字符（排除允许的空白字符）
-        if char in ASCII_CONTROL_CHARS_TO_REMOVE:
-            findings["details"]["ascii_control_chars"].append({
-                "index": i, "char": repr(char), "codepoint": codepoint,
-                "description": "不允许的ASCII控制字符"
-            })
-            anomaly_found = True
-
-        # 检查非标准空白字符
-        if char.isspace() and char not in STANDARD_WHITESPACE:
-            findings["details"]["non_standard_whitespace"].append({
-                "index": i, "char": repr(char), "codepoint": codepoint,
-                "description": "非标准空白字符"
-            })
-            anomaly_found = True
-
-        # 检查因NFKC标准化而改变的字符（潜在的同形字符/兼容性字符）
-        # 排除已标记的字符、标准空白字符和中文字符
-        if not anomaly_found and not char.isspace() and not is_chinese_char(char):
-            normalized_char = unicodedata.normalize('NFKC', char)
-            if char != normalized_char and normalized_char: # 确保结果不是空字符串
-                 # 避免将合法的多字符分解（如 'ﬁ' -> 'fi'）标记为简单同形字符
-                 # 检查标准化形式是否只是标准ASCII/常见字符
-                 is_common_decomposition = len(normalized_char) > 1 and all('a' <= c.lower() <= 'z' or c.isdigit() or c in ' -' for c in normalized_char)
-
-                 if not is_common_decomposition:
-                     findings["details"]["normalized_chars"].append({
-                         "index": i, "original_char": char, "original_codepoint": codepoint,
-                         "normalized_char": normalized_char,
-                         "normalized_codepoint": " ".join(f"U+{ord(c):04X}" for c in normalized_char),
-                         "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
-                     })
-                 # 即使是常见分解，我们也计数为变化
-                 # findings["summary"]["normalized_chars"] += 1 # 在下方计数
-
-    # 2. 检查过多的空白字符序列
-    for match in EXCESSIVE_WHITESPACE_REGEX.finditer(original_text):
-        findings["details"]["excessive_whitespace_sequences"].append({
-            "start_index": match.start(),
-            "end_index": match.end(),
-            "sequence": repr(match.group(0)),
-            "length": len(match.group(0)),
-            "description": "连续的多个空白字符"
-        })
-
-    # 3. 更新汇总计数
-    findings["summary"]["invisible_chars"] = len(findings["details"]["invisible_chars"])
-    findings["summary"]["ascii_control_chars"] = len(findings["details"]["ascii_control_chars"])
-    findings["summary"]["non_standard_whitespace"] = len(findings["details"]["non_standard_whitespace"])
-    findings["summary"]["excessive_whitespace_sequences"] = len(findings["details"]["excessive_whitespace_sequences"])
-    findings["summary"]["normalized_chars"] = len(findings["details"]["normalized_chars"])
-
-    findings["summary"]["total_anomalies_found"] = (
-        findings["summary"]["invisible_chars"] +
-        findings["summary"]["ascii_control_chars"] +
-        findings["summary"]["non_standard_whitespace"] +
-        findings["summary"]["excessive_whitespace_sequences"] +
-        findings["summary"]["normalized_chars"]
-    )
+    # 3. 更新汇总
+    _update_summary(findings)
 
     return findings
 
-# --- Cleaning Function ---
+# --- 清理辅助函数 ---
+
+# 学术类空白符范围（U+2000-U+200A），保留原样不替换
+ACADEMIC_WHITESPACE_RANGE = range(0x2000, 0x200B)
+
+
+def _handle_bom(text: str) -> tuple[str, str, bool]:
+    """处理BOM：如果不在最开头则移除。返回(文本, bom字符, 是否有初始bom)。"""
+    if text and text[0] == '\uFEFF':
+        return text[1:], text[0], True
+    return text, "", False
+
+
+def _restore_bom(text: str, bom: str, has_initial_bom: bool) -> str:
+    """如果原来有BOM且清理后不空，则恢复。"""
+    if has_initial_bom and text:
+        return bom + text
+    return text
+
+
+def _normalize_with_chinese_preservation(text: str) -> str:
+    """NFKC标准化时保留中文字符不被转换。"""
+    positions = {i: c for i, c in enumerate(text) if is_chinese_char(c)}
+    text = unicodedata.normalize('NFKC', text)
+    for i, c in positions.items():
+        if i < len(text):
+            text = text[:i] + c + text[i+1:]
+    return text
+
+
+def _remove_chars(text: str, charset: set) -> str:
+    """移除文本中属于charset的所有字符。"""
+    return "".join(c for c in text if c not in charset)
+
+
+def _preserve_linebreaks(text: str) -> tuple[str, list[int]]:
+    """将换行符替换为占位符，返回(替换后的文本, 换行符位置列表)。"""
+    PLACEHOLDER = '\x00LB\x00'
+    linebreak = re.compile(r'\r?\n')
+    positions = [m.start() for m in linebreak.finditer(text)]
+    result = linebreak.sub(PLACEHOLDER, text)
+    return result, positions
+
+
+def _restore_linebreaks(text: str) -> str:
+    """恢复被替换的换行符。"""
+    return text.replace('\x00LB\x00', '\n')
+
+
+def _preserve_academic_whitespace(text: str) -> tuple[str, dict]:
+    """保存学术类空白符用占位符替换。返回(替换后的文本, 位置表)。"""
+    PLACEHOLDER = '\x00AW\x00'
+    positions = {}
+    for i, c in enumerate(text):
+        if c.isspace() and ord(c) in ACADEMIC_WHITESPACE_RANGE:
+            positions[i] = c
+    for i in sorted(positions.keys(), reverse=True):
+        text = text[:i] + PLACEHOLDER + text[i+1:]
+    return text, positions
+
+
+def _restore_academic_whitespace(text: str, positions: dict) -> str:
+    """恢复被替换的学术类空白符。"""
+    PLACEHOLDER = '\x00AW\x00'
+    result = []
+    count = 0
+    ordered = sorted(positions.items())
+    for c in text:
+        if c == PLACEHOLDER and count < len(ordered):
+            result.append(ordered[count][1])
+            count += 1
+        else:
+            result.append(c)
+    return ''.join(result)
+
+
+# --- 清理主函数 ---
 
 def clean_text_from_watermarks(text: str) -> str:
     """
@@ -216,61 +355,27 @@ def clean_text_from_watermarks(text: str) -> str:
     if not text:
         return ""
 
-    cleaned_text = text
-
-    # 1. 特别处理BOM（U+FEFF）：如果不在最开头则移除
-    if len(cleaned_text) > 0 and cleaned_text[0] == '\uFEFF':
-        bom = cleaned_text[0]
-        cleaned_text = cleaned_text[1:]
-        has_initial_bom = True
-    else:
-        bom = ""
-        has_initial_bom = False
-
-    # 2. Unicode标准化（NFKC）
-    # 保留中文字符：先保存中文字符及其位置，标准化后恢复
-    chinese_char_positions = {}
-    for i, char in enumerate(cleaned_text):
-        if is_chinese_char(char):
-            chinese_char_positions[i] = char
-    
-    cleaned_text = unicodedata.normalize('NFKC', cleaned_text)
-    
-    # 恢复中文字符
-    for i, char in chinese_char_positions.items():
-        if i < len(cleaned_text):
-            cleaned_text = cleaned_text[:i] + char + cleaned_text[i+1:]
-
-    # 3. 移除特定的不可见和格式化字符（标准化后）
-    # 注意：一些字符可能已经在标准化过程中被移除
-    cleaned_text = "".join(c for c in cleaned_text if c not in INVISIBLE_CHARS_TO_REMOVE)
-
-    # 4. 移除特定的ASCII控制字符（\t、\n、\r除外）
-    cleaned_text = "".join(c for c in cleaned_text if c not in ASCII_CONTROL_CHARS_TO_REMOVE)
+    text, bom, has_bom = _handle_bom(text)          # 1. 处理BOM
+    text = _normalize_with_chinese_preservation(text)  # 2. NFKC标准化（保留中文）
+    text = _remove_chars(text, INVISIBLE_CHARS_TO_REMOVE)  # 3. 移除不可见字符
+    text = _remove_chars(text, ASCII_CONTROL_CHARS_TO_REMOVE)  # 4. 移除ASCII控制字符
 
     # 5. 标准化空白字符
-    # 保留所有换行符（包括单个和连续的），将其他空白字符序列替换为单个标准空格。
-    # 首先将所有换行符替换为特殊标记
-    LINEBREAK_PLACEHOLDER = '\x00LINEBREAK\x00'
-    # 匹配换行符（可能包含回车符）
-    linebreak_pattern = re.compile(r'\r?\n')
-    cleaned_text = linebreak_pattern.sub(LINEBREAK_PLACEHOLDER, cleaned_text)
-    # 标准化其他空白字符
-    cleaned_text = WHITESPACE_NORMALIZATION_REGEX.sub(' ', cleaned_text)
-    # 恢复换行符
-    cleaned_text = cleaned_text.replace(LINEBREAK_PLACEHOLDER, '\n')
+    #   a. 保护换行符
+    text, _ = _preserve_linebreaks(text)
+    #   b. 保护学术类空白符（U+2000-U+200A）
+    text, acad_positions = _preserve_academic_whitespace(text)
+    #   c. 标准化其他空白（包括其他非ASCII空白符如U+2800等）
+    text = WHITESPACE_NORMALIZATION_REGEX.sub(' ', text)
+    #   d. 恢复学术类空白符
+    text = _restore_academic_whitespace(text, acad_positions)
+    #   e. 恢复换行符
+    text = _restore_linebreaks(text)
 
-    # 6. 去除首尾空白字符（包括替换后的空格）
-    cleaned_text = cleaned_text.strip()
+    text = text.strip()          # 6. 去除首尾空白
+    text = _restore_bom(text, bom, has_bom)  # 7. 恢复BOM
 
-    # 7. 如果原本有初始BOM且清理后文本不为空，则重新添加
-    if has_initial_bom and cleaned_text:
-        cleaned_text = bom + cleaned_text
-    elif has_initial_bom and not cleaned_text:
-         # 如果清理后内容为空，则不添加BOM
-         pass
-
-    return cleaned_text
+    return text
 
 # --- Report Generation Functions ---
 
