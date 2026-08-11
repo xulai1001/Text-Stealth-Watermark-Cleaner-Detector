@@ -48,7 +48,45 @@ EXCESSIVE_WHITESPACE_REGEX = re.compile(r'\s{2,}')
 WHITESPACE_NORMALIZATION_REGEX = re.compile(r'\s+')
 
 # Standard/Common Whitespace characters (for detection reporting)
-STANDARD_WHITESPACE = {' ', '\t', '\n', '\r', '\u00A0'} # Include NBSP as somewhat common
+STANDARD_WHITESPACE = {' ', '\t', '\n', '\r', '\u00A0', '\u3000'} # Include NBSP and fullwidth space as somewhat common
+
+# 中文字符Unicode范围列表（起始码点，结束码点）
+# 注意：全角空格（U+3000）虽然是CJK符号，但它是空白字符，不在此范围内
+CHINESE_CHAR_RANGES = [
+    (0x4E00, 0x9FFF),    # CJK统一汉字（基本汉字）
+    (0x3400, 0x4DBF),    # CJK扩展A
+    (0x20000, 0x2A6DF),  # CJK扩展B
+    (0xF900, 0xFAFF),    # CJK兼容汉字
+    (0x3001, 0x303F),    # CJK符号和标点（包含中文标点，但不包括全角空格）
+    (0xFF00, 0xFFEF),    # 全角ASCII和半角标点（包含全角标点）
+    (0xFE30, 0xFE4F),    # CJK兼容形式
+    (0xFE10, 0xFE1F),    # 中文竖排标点
+    (0x31C0, 0x31EF),    # 中文笔画
+]
+
+# 中文常用标点（不在上述范围内）
+CHINESE_PUNCTUATION_EXTRA = {
+    0x201C, 0x201D, 0x2018, 0x2019,  # 引号
+    0x2014,  # 破折号
+    0x2026,  # 省略号
+    0x2013,  # 连接号
+    0x00B7,  # 间隔号
+}
+
+
+def is_chinese_char(char: str) -> bool:
+    """
+    判断字符是否属于中文字符范围（包括汉字、中文标点等）。
+    注意：全角空格（U+3000）虽然是CJK符号，但它是空白字符，不在此范围内。
+    
+    Args:
+        char: 单个字符
+        
+    Returns:
+        如果是中文字符返回True，否则返回False
+    """
+    cp = ord(char)
+    return any(start <= cp <= end for start, end in CHINESE_CHAR_RANGES) or cp in CHINESE_PUNCTUATION_EXTRA
 
 # --- Detection Function ---
 
@@ -115,8 +153,8 @@ def detect_potential_watermarks(original_text: str) -> dict:
             anomaly_found = True
 
         # 检查因NFKC标准化而改变的字符（潜在的同形字符/兼容性字符）
-        # 排除已标记的字符和标准空白字符的变化
-        if not anomaly_found and not char.isspace():
+        # 排除已标记的字符、标准空白字符和中文字符
+        if not anomaly_found and not char.isspace() and not is_chinese_char(char):
             normalized_char = unicodedata.normalize('NFKC', char)
             if char != normalized_char and normalized_char: # 确保结果不是空字符串
                  # 避免将合法的多字符分解（如 'ﬁ' -> 'fi'）标记为简单同形字符
@@ -190,7 +228,18 @@ def clean_text_from_watermarks(text: str) -> str:
         has_initial_bom = False
 
     # 2. Unicode标准化（NFKC）
+    # 保留中文字符：先保存中文字符及其位置，标准化后恢复
+    chinese_char_positions = {}
+    for i, char in enumerate(cleaned_text):
+        if is_chinese_char(char):
+            chinese_char_positions[i] = char
+    
     cleaned_text = unicodedata.normalize('NFKC', cleaned_text)
+    
+    # 恢复中文字符
+    for i, char in chinese_char_positions.items():
+        if i < len(cleaned_text):
+            cleaned_text = cleaned_text[:i] + char + cleaned_text[i+1:]
 
     # 3. 移除特定的不可见和格式化字符（标准化后）
     # 注意：一些字符可能已经在标准化过程中被移除
