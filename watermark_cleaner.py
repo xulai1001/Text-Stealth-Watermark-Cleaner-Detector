@@ -125,7 +125,7 @@ def is_chinese_char(char: str) -> bool:
 
 # --- 检测辅助函数 ---
 
-def _check_invisible_char(char: str, idx: int, findings: dict) -> bool:
+def check_invisible_char(char: str, idx: int, findings: dict) -> bool:
     """检查是否为不可见/格式化字符（排除索引0处的BOM）。"""
     if char in INVISIBLE_CHARS_TO_REMOVE:
         if not (char == '\uFEFF' and idx == 0):
@@ -137,7 +137,7 @@ def _check_invisible_char(char: str, idx: int, findings: dict) -> bool:
     return False
 
 
-def _check_ascii_control_char(char: str, idx: int, findings: dict) -> bool:
+def check_ascii_control_char(char: str, idx: int, findings: dict) -> bool:
     """检查是否为不允许的ASCII控制字符。"""
     if char in ASCII_CONTROL_CHARS_TO_REMOVE:
         findings["details"]["ascii_control_chars"].append({
@@ -148,7 +148,7 @@ def _check_ascii_control_char(char: str, idx: int, findings: dict) -> bool:
     return False
 
 
-def _check_non_standard_whitespace(char: str, idx: int, findings: dict) -> bool:
+def check_non_standard_whitespace(char: str, idx: int, findings: dict) -> bool:
     """检查是否为非标准空白字符。"""
     if char.isspace() and char not in STANDARD_WHITESPACE:
         findings["details"]["non_standard_whitespace"].append({
@@ -159,7 +159,7 @@ def _check_non_standard_whitespace(char: str, idx: int, findings: dict) -> bool:
     return False
 
 
-def _check_normalized_char(char: str, idx: int, findings: dict, skip: bool) -> bool:
+def check_normalized_char(char: str, idx: int, findings: dict, skip: bool) -> bool:
     """检查NFKC标准化后是否改变（潜在同形字符/兼容性字符）。"""
     if skip or char.isspace() or is_chinese_char(char):
         return False
@@ -180,7 +180,7 @@ def _check_normalized_char(char: str, idx: int, findings: dict, skip: bool) -> b
     return False
 
 
-def _find_excessive_whitespace(text: str) -> list[dict]:
+def find_excessive_whitespace(text: str) -> list[dict]:
     """查找所有连续>=2的空白字符序列。"""
     results = []
     for match in EXCESSIVE_WHITESPACE_REGEX.finditer(text):
@@ -196,7 +196,7 @@ def _find_excessive_whitespace(text: str) -> list[dict]:
 
 # --- 创建空的检测结果结构 ---
 
-def _make_empty_findings() -> dict:
+def make_empty_findings() -> dict:
     """创建一个空的检测结果字典。"""
     return {
         "metadata": {},
@@ -218,7 +218,7 @@ def _make_empty_findings() -> dict:
     }
 
 
-def _update_summary(findings: dict) -> None:
+def update_summary(findings: dict) -> None:
     """更新汇总计数。"""
     for key in findings["summary"]:
         if key != "total_anomalies_found":
@@ -243,21 +243,21 @@ def detect_potential_watermarks(original_text: str) -> dict:
     if not isinstance(original_text, str):
         raise TypeError("输入必须是字符串类型")
 
-    findings = _make_empty_findings()
+    findings = make_empty_findings()
 
     # 1. 逐字符检测：不可见字符、控制字符、非标准空白、NFKC变化
     for i, char in enumerate(original_text):
         flagged = False
-        flagged |= _check_invisible_char(char, i, findings)
-        flagged |= _check_ascii_control_char(char, i, findings)
-        flagged |= _check_non_standard_whitespace(char, i, findings)
-        _check_normalized_char(char, i, findings, skip=flagged)
+        flagged |= check_invisible_char(char, i, findings)
+        flagged |= check_ascii_control_char(char, i, findings)
+        flagged |= check_non_standard_whitespace(char, i, findings)
+        check_normalized_char(char, i, findings, skip=flagged)
 
     # 2. 扫描连续空白序列
-    findings["details"]["excessive_whitespace_sequences"] = _find_excessive_whitespace(original_text)
+    findings["details"]["excessive_whitespace_sequences"] = find_excessive_whitespace(original_text)
 
     # 3. 更新汇总
-    _update_summary(findings)
+    update_summary(findings)
 
     return findings
 
@@ -267,21 +267,21 @@ def detect_potential_watermarks(original_text: str) -> dict:
 ACADEMIC_WHITESPACE_RANGE = range(0x2000, 0x200B)
 
 
-def _handle_bom(text: str) -> tuple[str, str, bool]:
+def handle_bom(text: str) -> tuple[str, str, bool]:
     """处理BOM：如果不在最开头则移除。返回(文本, bom字符, 是否有初始bom)。"""
     if text and text[0] == '\uFEFF':
         return text[1:], text[0], True
     return text, "", False
 
 
-def _restore_bom(text: str, bom: str, has_initial_bom: bool) -> str:
+def restore_bom(text: str, bom: str, has_initial_bom: bool) -> str:
     """如果原来有BOM且清理后不空，则恢复。"""
     if has_initial_bom and text:
         return bom + text
     return text
 
 
-def _normalize_with_chinese_preservation(text: str) -> str:
+def normalize_with_chinese_preservation(text: str) -> str:
     """NFKC标准化时保留中文字符不被转换。"""
     positions = {i: c for i, c in enumerate(text) if is_chinese_char(c)}
     text = unicodedata.normalize('NFKC', text)
@@ -291,12 +291,12 @@ def _normalize_with_chinese_preservation(text: str) -> str:
     return text
 
 
-def _remove_chars(text: str, charset: set) -> str:
+def remove_chars(text: str, charset: set) -> str:
     """移除文本中属于charset的所有字符。"""
     return "".join(c for c in text if c not in charset)
 
 
-def _preserve_linebreaks(text: str) -> tuple[str, list[int]]:
+def preserve_linebreaks(text: str) -> tuple[str, list[int]]:
     """将换行符替换为占位符，返回(替换后的文本, 换行符位置列表)。"""
     PLACEHOLDER = '\x00LB\x00'
     linebreak = re.compile(r'\r?\n')
@@ -305,12 +305,12 @@ def _preserve_linebreaks(text: str) -> tuple[str, list[int]]:
     return result, positions
 
 
-def _restore_linebreaks(text: str) -> str:
+def restore_linebreaks(text: str) -> str:
     """恢复被替换的换行符。"""
     return text.replace('\x00LB\x00', '\n')
 
 
-def _preserve_academic_whitespace(text: str) -> tuple[str, dict]:
+def preserve_academic_whitespace(text: str) -> tuple[str, dict]:
     """保存学术类空白符用占位符替换。返回(替换后的文本, 位置表)。"""
     PLACEHOLDER = '\x00AW\x00'
     positions = {}
@@ -322,7 +322,7 @@ def _preserve_academic_whitespace(text: str) -> tuple[str, dict]:
     return text, positions
 
 
-def _restore_academic_whitespace(text: str, positions: dict) -> str:
+def restore_academic_whitespace(text: str, positions: dict) -> str:
     """恢复被替换的学术类空白符。"""
     PLACEHOLDER = '\x00AW\x00'
     result = []
@@ -355,25 +355,25 @@ def clean_text_from_watermarks(text: str) -> str:
     if not text:
         return ""
 
-    text, bom, has_bom = _handle_bom(text)          # 1. 处理BOM
-    text = _normalize_with_chinese_preservation(text)  # 2. NFKC标准化（保留中文）
-    text = _remove_chars(text, INVISIBLE_CHARS_TO_REMOVE)  # 3. 移除不可见字符
-    text = _remove_chars(text, ASCII_CONTROL_CHARS_TO_REMOVE)  # 4. 移除ASCII控制字符
+    text, bom, has_bom = handle_bom(text)          # 1. 处理BOM
+    text = normalize_with_chinese_preservation(text)  # 2. NFKC标准化（保留中文）
+    text = remove_chars(text, INVISIBLE_CHARS_TO_REMOVE)  # 3. 移除不可见字符
+    text = remove_chars(text, ASCII_CONTROL_CHARS_TO_REMOVE)  # 4. 移除ASCII控制字符
 
     # 5. 标准化空白字符
     #   a. 保护换行符
-    text, _ = _preserve_linebreaks(text)
+    text, _ = preserve_linebreaks(text)
     #   b. 保护学术类空白符（U+2000-U+200A）
-    text, acad_positions = _preserve_academic_whitespace(text)
+    text, acad_positions = preserve_academic_whitespace(text)
     #   c. 标准化其他空白（包括其他非ASCII空白符如U+2800等）
     text = WHITESPACE_NORMALIZATION_REGEX.sub(' ', text)
     #   d. 恢复学术类空白符
-    text = _restore_academic_whitespace(text, acad_positions)
+    text = restore_academic_whitespace(text, acad_positions)
     #   e. 恢复换行符
-    text = _restore_linebreaks(text)
+    text = restore_linebreaks(text)
 
     text = text.strip()          # 6. 去除首尾空白
-    text = _restore_bom(text, bom, has_bom)  # 7. 恢复BOM
+    text = restore_bom(text, bom, has_bom)  # 7. 恢复BOM
 
     return text
 

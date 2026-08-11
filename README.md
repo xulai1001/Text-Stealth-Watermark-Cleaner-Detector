@@ -40,6 +40,16 @@ This tool promotes **"Text Freedom"** by providing users with a means to analyze
 *   **Easy to Use:** Simple command-line interface.
 *   **No External Dependencies:** Uses only standard Python libraries.
 
+## Limitations
+
+**本程序只能检测并移除嵌入的不可见Unicode字符、同形字符替换等格式层面的水印**，常见于AI生成文本的复制粘贴场景。它无法检测或处理以下类型的水印：
+
+- **模型权重水印（Weight Watermark）：** 在模型训练、微调或知识蒸馏阶段植入到模型内部的水印。这类水印需要通过特定的触发词诱导模型输出特征文本，或通过分析模型内部权重来检测。
+- **推理时统计水印（Inference-time Watermark）：** 如Google的SynthID-Text、KGW算法等。这些水印在模型生成文本时，通过微小调整词的选择概率来嵌入一个统计指纹。它们完全不可见，只能通过统计分析（如计算"绿色词"比例和Z分数）来检测。
+- **语义型水印（Semantic Watermark）：** 通过同义词替换或句子重构嵌入的水印，目前尚在原型阶段。
+
+关于这些水印技术的详细解释，请参考 `test/test.md` 中的对话笔记。
+
 ## Installation
 
 1.  **Requires Python 3.x.** (Tested with Python 3.7+)
