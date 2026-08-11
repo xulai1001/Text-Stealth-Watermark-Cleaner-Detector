@@ -54,16 +54,16 @@ STANDARD_WHITESPACE = {' ', '\t', '\n', '\r', '\u00A0'} # Include NBSP as somewh
 
 def detect_potential_watermarks(original_text: str) -> dict:
     """
-    Analyzes text to detect potential signs of hidden watermarks.
+    分析文本以检测潜在的隐藏水印特征。
 
     Args:
-        original_text: The input string to analyze.
+        original_text: 待分析的输入字符串。
 
     Returns:
-        A dictionary containing detailed findings.
+        包含详细检测结果的字典。
     """
     if not isinstance(original_text, str):
-        raise TypeError("Input must be a string")
+        raise TypeError("输入必须是字符串类型")
 
     findings = {
         "metadata": {}, # Will be added later
@@ -89,38 +89,38 @@ def detect_potential_watermarks(original_text: str) -> dict:
         codepoint = f"U+{ord(char):04X}"
         anomaly_found = False
 
-        # Check Invisible/Formatting Chars (Exclude BOM at index 0)
+        # 检查不可见/格式化字符（排除索引0处的BOM）
         if char in INVISIBLE_CHARS_TO_REMOVE:
             if not (char == '\uFEFF' and i == 0):
                 findings["details"]["invisible_chars"].append({
                     "index": i, "char": char, "codepoint": codepoint,
-                    "description": "Known invisible/formatting character"
+                    "description": "已知的不可见/格式化字符"
                 })
                 anomaly_found = True
 
-        # Check ASCII Control Chars (excluding allowed whitespace)
+        # 检查ASCII控制字符（排除允许的空白字符）
         if char in ASCII_CONTROL_CHARS_TO_REMOVE:
             findings["details"]["ascii_control_chars"].append({
                 "index": i, "char": repr(char), "codepoint": codepoint,
-                "description": "Disallowed ASCII control character"
+                "description": "不允许的ASCII控制字符"
             })
             anomaly_found = True
 
-        # Check for non-standard whitespace
+        # 检查非标准空白字符
         if char.isspace() and char not in STANDARD_WHITESPACE:
             findings["details"]["non_standard_whitespace"].append({
                 "index": i, "char": repr(char), "codepoint": codepoint,
-                "description": "Non-standard whitespace character"
+                "description": "非标准空白字符"
             })
             anomaly_found = True
 
-        # Check for characters changed by NFKC normalization (potential homoglyphs/compatibility)
-        # Exclude chars already flagged and standard whitespace changes
+        # 检查因NFKC标准化而改变的字符（潜在的同形字符/兼容性字符）
+        # 排除已标记的字符和标准空白字符的变化
         if not anomaly_found and not char.isspace():
             normalized_char = unicodedata.normalize('NFKC', char)
-            if char != normalized_char and normalized_char: # Ensure not empty string result
-                 # Avoid flagging legitimate multi-char decompositions like 'ﬁ' -> 'fi' as simple homoglyphs
-                 # Check if the normalized form is just standard ASCII/common chars
+            if char != normalized_char and normalized_char: # 确保结果不是空字符串
+                 # 避免将合法的多字符分解（如 'ﬁ' -> 'fi'）标记为简单同形字符
+                 # 检查标准化形式是否只是标准ASCII/常见字符
                  is_common_decomposition = len(normalized_char) > 1 and all('a' <= c.lower() <= 'z' or c.isdigit() or c in ' -' for c in normalized_char)
 
                  if not is_common_decomposition:
@@ -128,22 +128,22 @@ def detect_potential_watermarks(original_text: str) -> dict:
                          "index": i, "original_char": char, "original_codepoint": codepoint,
                          "normalized_char": normalized_char,
                          "normalized_codepoint": " ".join(f"U+{ord(c):04X}" for c in normalized_char),
-                         "description": "Character changed by NFKC normalization (potential homoglyph or compatibility char)"
+                         "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
                      })
-                 # Even if common decomposition, we count it as a change
-                 # findings["summary"]["normalized_chars"] += 1 # Counted below
+                 # 即使是常见分解，我们也计数为变化
+                 # findings["summary"]["normalized_chars"] += 1 # 在下方计数
 
-    # 2. Check for excessive whitespace sequences
+    # 2. 检查过多的空白字符序列
     for match in EXCESSIVE_WHITESPACE_REGEX.finditer(original_text):
         findings["details"]["excessive_whitespace_sequences"].append({
             "start_index": match.start(),
             "end_index": match.end(),
             "sequence": repr(match.group(0)),
             "length": len(match.group(0)),
-            "description": "Sequence of multiple whitespace characters"
+            "description": "连续的多个空白字符"
         })
 
-    # 3. Update Summary Counts
+    # 3. 更新汇总计数
     findings["summary"]["invisible_chars"] = len(findings["details"]["invisible_chars"])
     findings["summary"]["ascii_control_chars"] = len(findings["details"]["ascii_control_chars"])
     findings["summary"]["non_standard_whitespace"] = len(findings["details"]["non_standard_whitespace"])
@@ -164,23 +164,23 @@ def detect_potential_watermarks(original_text: str) -> dict:
 
 def clean_text_from_watermarks(text: str) -> str:
     """
-    Cleans text by normalizing Unicode, removing known invisible/control characters,
-    and standardizing whitespace to mitigate potential hidden watermarks.
+    通过标准化Unicode、移除已知的不可见/控制字符以及标准化空白字符来清理文本，
+    以消除潜在的隐藏水印。
 
     Args:
-        text: The input string to clean.
+        text: 待清理的输入字符串。
 
     Returns:
-        The cleaned string.
+        清理后的字符串。
     """
     if not isinstance(text, str):
-        raise TypeError("Input must be a string")
+        raise TypeError("输入必须是字符串类型")
     if not text:
         return ""
 
     cleaned_text = text
 
-    # 1. Handle BOM (U+FEFF) specifically: remove if not at the very beginning
+    # 1. 特别处理BOM（U+FEFF）：如果不在最开头则移除
     if len(cleaned_text) > 0 and cleaned_text[0] == '\uFEFF':
         bom = cleaned_text[0]
         cleaned_text = cleaned_text[1:]
@@ -189,28 +189,36 @@ def clean_text_from_watermarks(text: str) -> str:
         bom = ""
         has_initial_bom = False
 
-    # 2. Unicode Normalization (NFKC)
+    # 2. Unicode标准化（NFKC）
     cleaned_text = unicodedata.normalize('NFKC', cleaned_text)
 
-    # 3. Remove specific invisible and formatting characters (post-normalization)
-    # Note: Some might have been normalized away already
+    # 3. 移除特定的不可见和格式化字符（标准化后）
+    # 注意：一些字符可能已经在标准化过程中被移除
     cleaned_text = "".join(c for c in cleaned_text if c not in INVISIBLE_CHARS_TO_REMOVE)
 
-    # 4. Remove specific ASCII control characters (except \t, \n, \r)
+    # 4. 移除特定的ASCII控制字符（\t、\n、\r除外）
     cleaned_text = "".join(c for c in cleaned_text if c not in ASCII_CONTROL_CHARS_TO_REMOVE)
 
-    # 5. Normalize Whitespace
-    # Replace any sequence of whitespace chars with a single standard space.
+    # 5. 标准化空白字符
+    # 保留所有换行符（包括单个和连续的），将其他空白字符序列替换为单个标准空格。
+    # 首先将所有换行符替换为特殊标记
+    LINEBREAK_PLACEHOLDER = '\x00LINEBREAK\x00'
+    # 匹配换行符（可能包含回车符）
+    linebreak_pattern = re.compile(r'\r?\n')
+    cleaned_text = linebreak_pattern.sub(LINEBREAK_PLACEHOLDER, cleaned_text)
+    # 标准化其他空白字符
     cleaned_text = WHITESPACE_NORMALIZATION_REGEX.sub(' ', cleaned_text)
+    # 恢复换行符
+    cleaned_text = cleaned_text.replace(LINEBREAK_PLACEHOLDER, '\n')
 
-    # 6. Trim leading/trailing whitespace (including the substituted space)
+    # 6. 去除首尾空白字符（包括替换后的空格）
     cleaned_text = cleaned_text.strip()
 
-    # 7. Re-add initial BOM if it was present and cleaning didn't make text empty
+    # 7. 如果原本有初始BOM且清理后文本不为空，则重新添加
     if has_initial_bom and cleaned_text:
         cleaned_text = bom + cleaned_text
     elif has_initial_bom and not cleaned_text:
-         # If cleaning removed everything, don't add BOM back to empty string
+         # 如果清理后内容为空，则不添加BOM
          pass
 
     return cleaned_text
@@ -218,143 +226,156 @@ def clean_text_from_watermarks(text: str) -> str:
 # --- Report Generation Functions ---
 
 def generate_human_report(findings: dict, input_filename: str) -> str:
-    """Generates a human-readable Markdown report from the findings."""
+    """生成人类可读的Markdown报告。"""
     report_lines = [
-        f"# Watermark Analysis Report for: `{os.path.basename(input_filename)}`",
-        f"Analysis Timestamp: {findings['metadata']['timestamp']}",
-        f"Original File Size: {findings['metadata']['original_size']} bytes",
-        f"Total Anomalies Detected: {findings['summary']['total_anomalies_found']}",
-        "\n## Summary of Findings",
-        f"- **Known Invisible/Formatting Characters:** {findings['summary']['invisible_chars']}",
-        f"- **Disallowed ASCII Control Characters:** {findings['summary']['ascii_control_chars']}",
-        f"- **Non-Standard Whitespace Characters:** {findings['summary']['non_standard_whitespace']}",
-        f"- **Excessive Whitespace Sequences (>=2):** {findings['summary']['excessive_whitespace_sequences']}",
-        f"- **Characters Changed by NFKC Normalization:** {findings['summary']['normalized_chars']}",
-        "\n## Detailed Findings"
+        f"# 水印分析报告：`{os.path.basename(input_filename)}`",
+        f"分析时间：{findings['metadata']['timestamp']}",
+        f"原始文件大小：{findings['metadata']['original_size']} 字节",
+        f"检测到的异常总数：{findings['summary']['total_anomalies_found']}",
+        "\n## 检测结果摘要",
+        f"- **已知的不可见/格式化字符：** {findings['summary']['invisible_chars']}",
+        f"- **不允许的ASCII控制字符：** {findings['summary']['ascii_control_chars']}",
+        f"- **非标准空白字符：** {findings['summary']['non_standard_whitespace']}",
+        f"- **连续的空白字符序列（>=2）：** {findings['summary']['excessive_whitespace_sequences']}",
+        f"- **NFKC标准化后改变的字符：** {findings['summary']['normalized_chars']}",
+        "\n## 详细检测结果"
     ]
 
     if not findings['summary']['total_anomalies_found']:
-        report_lines.append("\n*No potential watermarking anomalies detected.*")
+        report_lines.append("\n*未检测到潜在的水印异常。*")
     else:
+        category_names = {
+            "invisible_chars": "不可见字符",
+            "ascii_control_chars": "ASCII控制字符",
+            "non_standard_whitespace": "非标准空白字符",
+            "excessive_whitespace_sequences": "连续空白字符序列",
+            "normalized_chars": "标准化改变的字符"
+        }
+        # 只汇报总数的类别（不列出每个出现位置）
+        summary_only_categories = {"excessive_whitespace_sequences"}
         for category, details in findings["details"].items():
             if details:
-                report_lines.append(f"\n### {category.replace('_', ' ').title()}")
-                report_lines.append("| Index | Character | CodePoint | Details |")
-                report_lines.append("|---|---|---|---|")
-                for item in details:
-                    char_repr = item.get('char', item.get('original_char', item.get('sequence', 'N/A')))
-                    # Escape pipe characters in representation for Markdown table
-                    char_display = repr(char_repr).replace('|', '\\|')
-                    codepoint = item.get('codepoint', item.get('original_codepoint', 'N/A'))
-                    desc = item.get('description', '')
-                    if 'normalized_char' in item:
-                        desc += f" (Normalized to: {repr(item['normalized_char'])} {item['normalized_codepoint']})"
-                    if 'length' in item:
-                        desc += f" (Length: {item['length']})"
+                category_title = category_names.get(category, category.replace('_', ' ').title())
+                report_lines.append(f"\n### {category_title}")
+                if category in summary_only_categories:
+                    # 只汇报总数，不列出详细信息
+                    report_lines.append(f"\n共检测到 **{len(details)}** 处连续空白字符序列。")
+                else:
+                    report_lines.append("| 位置 | 字符 | 码点 | 详情 |")
+                    report_lines.append("|---|---|---|---|")
+                    for item in details:
+                        char_repr = item.get('char', item.get('original_char', item.get('sequence', 'N/A')))
+                        # 转义Markdown表格中的管道字符
+                        char_display = repr(char_repr).replace('|', '\\|')
+                        codepoint = item.get('codepoint', item.get('original_codepoint', 'N/A'))
+                        desc = item.get('description', '')
+                        if 'normalized_char' in item:
+                            desc += f" （标准化为：{repr(item['normalized_char'])} {item['normalized_codepoint']}）"
+                        if 'length' in item:
+                            desc += f" （长度：{item['length']}）"
 
-                    report_lines.append(f"| {item.get('index', item.get('start_index', 'N/A'))} | `{char_display}` | {codepoint} | {desc} |")
+                        report_lines.append(f"| {item.get('index', item.get('start_index', 'N/A'))} | `{char_display}` | {codepoint} | {desc} |")
 
     return "\n".join(report_lines)
 
 def generate_json_report(findings: dict, input_filename: str, output_path: str):
-    """Generates a JSON report file from the findings."""
-    # Add metadata to the findings structure before dumping
+    """生成JSON格式的报告文件。"""
+    # 在转储前将元数据添加到findings结构中
     findings["metadata"]["input_filename"] = os.path.basename(input_filename)
-    # Timestamp and size already added in main()
+    # 时间戳和大小已在main()中添加
 
     try:
         with open(output_path, 'w', encoding='utf-8') as f:
             json.dump(findings, f, ensure_ascii=False, indent=4)
-        print(f"Successfully generated JSON report: {output_path}")
+        print(f"已成功生成JSON报告：{output_path}")
     except IOError as e:
-        print(f"Error writing JSON report to {output_path}: {e}", file=sys.stderr)
+        print(f"写入JSON报告时出错 {output_path}: {e}", file=sys.stderr)
     except TypeError as e:
-        print(f"Error serializing findings to JSON: {e}", file=sys.stderr)
+        print(f"序列化findings为JSON时出错: {e}", file=sys.stderr)
 
 
 # --- Main Execution ---
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Detects and removes potential hidden text watermarks from a file. "
-                    "Generates a cleaned text file, a human-readable Markdown report, "
-                    "and a machine-readable JSON report."
+        description="检测并移除文件中潜在的隐藏文本水印。"
+                    "生成清理后的文本文件、人类可读的Markdown报告和机器可读的JSON报告。"
     )
-    parser.add_argument("input_file", help="Path to the input text file (UTF-8 encoded).")
+    parser.add_argument("input_file", help="输入文本文件的路径（UTF-8编码）。")
     parser.add_argument(
         "-o", "--output-basename",
-        help="Basename for output files. If not provided, uses the input filename without extension. "
-             "Outputs will be <basename>_cleaned.txt, <basename>_report.md, <basename>_report.json"
+        help="输出文件的基本名称。如果未提供，则使用输入文件名（不含扩展名）。"
+             "输出文件将命名为：<basename>_cleaned.txt、<basename>_report.md、<basename>_report.json"
     )
-    # Add verbosity later if needed with logging module
+    # 如需要可使用logging模块添加详细输出选项
 
     args = parser.parse_args()
 
     input_path = args.input_file
     if not os.path.isfile(input_path):
-        print(f"Error: Input file not found: {input_path}", file=sys.stderr)
+        print(f"错误：未找到输入文件：{input_path}", file=sys.stderr)
         sys.exit(1)
 
-    # Determine output base name
+    # 确定输出基本名称
     if args.output_basename:
         base_name = args.output_basename
     else:
         base_name = os.path.splitext(os.path.basename(input_path))[0]
 
-    output_dir = os.path.dirname(input_path) # Output in the same directory as input by default
+    output_dir = os.path.dirname(input_path) # 默认在输入文件所在目录输出
     cleaned_path = os.path.join(output_dir, f"{base_name}_cleaned.txt")
     report_md_path = os.path.join(output_dir, f"{base_name}_report.md")
     report_json_path = os.path.join(output_dir, f"{base_name}_report.json")
 
-    # Read the input file
+    # 读取输入文件
     try:
         with open(input_path, 'r', encoding='utf-8') as f:
             original_text = f.read()
         original_size = os.path.getsize(input_path)
-        print(f"Successfully read input file: {input_path} ({original_size} bytes)")
+        print(f"已成功读取输入文件：{input_path}（{original_size} 字节）")
     except Exception as e:
-        print(f"Error reading input file {input_path}: {e}", file=sys.stderr)
+        print(f"读取输入文件时出错 {input_path}: {e}", file=sys.stderr)
         sys.exit(1)
 
-    # --- Analysis ---
-    print("Analyzing text for potential watermarks...")
+    # --- 分析 ---
+    print("正在分析文本中的潜在水印...")
     analysis_findings = detect_potential_watermarks(original_text)
 
-    # Add metadata needed for reports
+    # 添加报告所需的元数据
     analysis_findings["metadata"]["timestamp"] = datetime.now().isoformat()
     analysis_findings["metadata"]["original_size"] = original_size
 
-    # --- Cleaning ---
-    print("Cleaning text...")
+    # --- 清理 ---
+    print("正在清理文本...")
     cleaned_text = clean_text_from_watermarks(original_text)
 
-    # --- Output Generation ---
+    # --- 生成输出 ---
 
-    # 1. Write Cleaned Text File
+    # 1. 写入清理后的文本文件
     try:
         with open(cleaned_path, 'w', encoding='utf-8') as f:
             f.write(cleaned_text)
-        print(f"Successfully generated cleaned text file: {cleaned_path}")
+        print(f"已成功生成清理后的文本文件：{cleaned_path}")
     except IOError as e:
-        print(f"Error writing cleaned file to {cleaned_path}: {e}", file=sys.stderr)
+        print(f"写入清理文件时出错 {cleaned_path}: {e}", file=sys.stderr)
 
-    # 2. Generate and Write Human-Readable Report (Markdown)
+    # 2. 生成并写入人类可读的报告（Markdown）
     try:
         markdown_report = generate_human_report(analysis_findings, input_path)
         with open(report_md_path, 'w', encoding='utf-8') as f:
             f.write(markdown_report)
-        print(f"Successfully generated Markdown report: {report_md_path}")
+        print(f"已成功生成Markdown报告：{report_md_path}")
     except IOError as e:
-        print(f"Error writing Markdown report to {report_md_path}: {e}", file=sys.stderr)
+        print(f"写入Markdown报告时出错 {report_md_path}: {e}", file=sys.stderr)
 
-    # 3. Generate and Write JSON Report
+    # 3. 生成并写入JSON报告
     generate_json_report(analysis_findings, input_path, report_json_path)
 
-    print("\nProcessing complete.")
+    print("\n处理完成。")
     if analysis_findings["summary"]["total_anomalies_found"] > 0:
-        print(f"Detected {analysis_findings['summary']['total_anomalies_found']} potential anomalies. Check reports for details.")
+        print(f"检测到 {analysis_findings['summary']['total_anomalies_found']} 个潜在异常。请查看报告获取详细信息。")
     else:
-        print("No potential watermarking anomalies detected.")
+        print("未检测到潜在的水印异常。")
 
 
 if __name__ == "__main__":

@@ -1,0 +1,1642 @@
+{
+    "metadata": {
+        "timestamp": "2026-08-11T10:13:56.295869",
+        "original_size": 7328,
+        "input_filename": "test.md"
+    },
+    "summary": {
+        "invisible_chars": 0,
+        "ascii_control_chars": 0,
+        "non_standard_whitespace": 0,
+        "excessive_whitespace_sequences": 118,
+        "normalized_chars": 99,
+        "total_anomalies_found": 217
+    },
+    "details": {
+        "invisible_chars": [],
+        "ascii_control_chars": [],
+        "non_standard_whitespace": [],
+        "excessive_whitespace_sequences": [
+            {
+                "start_index": 20,
+                "end_index": 22,
+                "sequence": "'\\n\\n'",
+                "length": 2,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 39,
+                "end_index": 41,
+                "sequence": "'\\n\\n'",
+                "length": 2,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 72,
+                "end_index": 74,
+                "sequence": "'\\n\\n'",
+                "length": 2,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 77,
+                "end_index": 79,
+                "sequence": "'\\n\\n'",
+                "length": 2,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 98,
+                "end_index": 100,
+                "sequence": "'\\n\\n'",
+                "length": 2,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 114,
+                "end_index": 116,
+                "sequence": "'\\n\\n'",
+                "length": 2,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 165,
+                "end_index": 168,
+                "sequence": "'\\n  '",
+                "length": 3,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 184,
+                "end_index": 187,
+                "sequence": "'\\n  '",
+                "length": 3,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 205,
+                "end_index": 208,
+                "sequence": "'\\n  '",
+                "length": 3,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 225,
+                "end_index": 228,
+                "sequence": "'\\n  '",
+                "length": 3,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 245,
+                "end_index": 248,
+                "sequence": "'\\n  '",
+                "length": 3,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 294,
+                "end_index": 296,
+                "sequence": "'\\n\\n'",
+                "length": 2,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 309,
+                "end_index": 311,
+                "sequence": "'\\n\\n'",
+                "length": 2,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 366,
+                "end_index": 369,
+                "sequence": "'\\n  '",
+                "length": 3,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 407,
+                "end_index": 410,
+                "sequence": "'\\n  '",
+                "length": 3,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 444,
+                "end_index": 447,
+                "sequence": "'\\n  '",
+                "length": 3,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 489,
+                "end_index": 491,
+                "sequence": "'\\n\\n'",
+                "length": 2,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 504,
+                "end_index": 506,
+                "sequence": "'\\n\\n'",
+                "length": 2,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 565,
+                "end_index": 567,
+                "sequence": "'\\n\\n'",
+                "length": 2,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 585,
+                "end_index": 587,
+                "sequence": "'\\n\\n'",
+                "length": 2,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 665,
+                "end_index": 667,
+                "sequence": "'\\n\\n'",
+                "length": 2,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 686,
+                "end_index": 688,
+                "sequence": "'\\n\\n'",
+                "length": 2,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 793,
+                "end_index": 795,
+                "sequence": "'\\n\\n'",
+                "length": 2,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 807,
+                "end_index": 809,
+                "sequence": "'\\n\\n'",
+                "length": 2,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 862,
+                "end_index": 864,
+                "sequence": "'\\n\\n'",
+                "length": 2,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 867,
+                "end_index": 869,
+                "sequence": "'\\n\\n'",
+                "length": 2,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 883,
+                "end_index": 885,
+                "sequence": "'\\n\\n'",
+                "length": 2,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 989,
+                "end_index": 991,
+                "sequence": "'\\n\\n'",
+                "length": 2,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 994,
+                "end_index": 996,
+                "sequence": "'\\n\\n'",
+                "length": 2,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 1009,
+                "end_index": 1011,
+                "sequence": "'\\n\\n'",
+                "length": 2,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 1024,
+                "end_index": 1026,
+                "sequence": "'\\n\\n'",
+                "length": 2,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 1036,
+                "end_index": 1062,
+                "sequence": "'                          '",
+                "length": 26,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 1070,
+                "end_index": 1073,
+                "sequence": "'   '",
+                "length": 3,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 1083,
+                "end_index": 1109,
+                "sequence": "'                          '",
+                "length": 26,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 1214,
+                "end_index": 1232,
+                "sequence": "'                  '",
+                "length": 18,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 1238,
+                "end_index": 1243,
+                "sequence": "'     '",
+                "length": 5,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 1273,
+                "end_index": 1279,
+                "sequence": "'      '",
+                "length": 6,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 1323,
+                "end_index": 1328,
+                "sequence": "'     '",
+                "length": 5,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 1354,
+                "end_index": 1364,
+                "sequence": "'          '",
+                "length": 10,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 1389,
+                "end_index": 1402,
+                "sequence": "'             '",
+                "length": 13,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 1408,
+                "end_index": 1413,
+                "sequence": "'     '",
+                "length": 5,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 1435,
+                "end_index": 1449,
+                "sequence": "'              '",
+                "length": 14,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 1481,
+                "end_index": 1487,
+                "sequence": "'      '",
+                "length": 6,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 1493,
+                "end_index": 1498,
+                "sequence": "'     '",
+                "length": 5,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 1523,
+                "end_index": 1534,
+                "sequence": "'           '",
+                "length": 11,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 1567,
+                "end_index": 1572,
+                "sequence": "'     '",
+                "length": 5,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 1578,
+                "end_index": 1583,
+                "sequence": "'     '",
+                "length": 5,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 1607,
+                "end_index": 1619,
+                "sequence": "'            '",
+                "length": 12,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 1648,
+                "end_index": 1657,
+                "sequence": "'         '",
+                "length": 9,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 1705,
+                "end_index": 1707,
+                "sequence": "'\\n\\n'",
+                "length": 2,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 1719,
+                "end_index": 1721,
+                "sequence": "'\\n\\n'",
+                "length": 2,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 1731,
+                "end_index": 1754,
+                "sequence": "'                       '",
+                "length": 23,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 1773,
+                "end_index": 1805,
+                "sequence": "'                                '",
+                "length": 32,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 1902,
+                "end_index": 1926,
+                "sequence": "'                        '",
+                "length": 24,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 1933,
+                "end_index": 1935,
+                "sequence": "'  '",
+                "length": 2,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 1961,
+                "end_index": 1977,
+                "sequence": "'                '",
+                "length": 16,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 1996,
+                "end_index": 2012,
+                "sequence": "'                '",
+                "length": 16,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 2019,
+                "end_index": 2021,
+                "sequence": "'  '",
+                "length": 2,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 2042,
+                "end_index": 2063,
+                "sequence": "'                     '",
+                "length": 21,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 2083,
+                "end_index": 2098,
+                "sequence": "'               '",
+                "length": 15,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 2104,
+                "end_index": 2107,
+                "sequence": "'   '",
+                "length": 3,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 2128,
+                "end_index": 2149,
+                "sequence": "'                     '",
+                "length": 21,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 2176,
+                "end_index": 2184,
+                "sequence": "'        '",
+                "length": 8,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 2190,
+                "end_index": 2193,
+                "sequence": "'   '",
+                "length": 3,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 2276,
+                "end_index": 2279,
+                "sequence": "'   '",
+                "length": 3,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 2303,
+                "end_index": 2321,
+                "sequence": "'                  '",
+                "length": 18,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 2335,
+                "end_index": 2356,
+                "sequence": "'                     '",
+                "length": 21,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 2362,
+                "end_index": 2365,
+                "sequence": "'   '",
+                "length": 3,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 2393,
+                "end_index": 2407,
+                "sequence": "'              '",
+                "length": 14,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 2408,
+                "end_index": 2410,
+                "sequence": "'\\n\\n'",
+                "length": 2,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 2420,
+                "end_index": 2422,
+                "sequence": "'\\n\\n'",
+                "length": 2,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 2432,
+                "end_index": 2449,
+                "sequence": "'                 '",
+                "length": 17,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 2457,
+                "end_index": 2460,
+                "sequence": "'   '",
+                "length": 3,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 2470,
+                "end_index": 2489,
+                "sequence": "'                   '",
+                "length": 19,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 2578,
+                "end_index": 2587,
+                "sequence": "'         '",
+                "length": 9,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 2593,
+                "end_index": 2598,
+                "sequence": "'     '",
+                "length": 5,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 2623,
+                "end_index": 2627,
+                "sequence": "'    '",
+                "length": 4,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 2697,
+                "end_index": 2699,
+                "sequence": "'\\n\\n'",
+                "length": 2,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 2702,
+                "end_index": 2704,
+                "sequence": "'\\n\\n'",
+                "length": 2,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 2715,
+                "end_index": 2717,
+                "sequence": "'\\n\\n'",
+                "length": 2,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 2731,
+                "end_index": 2733,
+                "sequence": "'\\n\\n'",
+                "length": 2,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 2938,
+                "end_index": 2940,
+                "sequence": "'\\n\\n'",
+                "length": 2,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 2960,
+                "end_index": 2962,
+                "sequence": "'\\n\\n'",
+                "length": 2,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 2983,
+                "end_index": 2996,
+                "sequence": "'             '",
+                "length": 13,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 3007,
+                "end_index": 3018,
+                "sequence": "'           '",
+                "length": 11,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 3084,
+                "end_index": 3089,
+                "sequence": "'     '",
+                "length": 5,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 3104,
+                "end_index": 3112,
+                "sequence": "'        '",
+                "length": 8,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 3121,
+                "end_index": 3134,
+                "sequence": "'             '",
+                "length": 13,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 3142,
+                "end_index": 3147,
+                "sequence": "'     '",
+                "length": 5,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 3151,
+                "end_index": 3170,
+                "sequence": "'                   '",
+                "length": 19,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 3187,
+                "end_index": 3192,
+                "sequence": "'     '",
+                "length": 5,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 3200,
+                "end_index": 3205,
+                "sequence": "'     '",
+                "length": 5,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 3243,
+                "end_index": 3250,
+                "sequence": "'       '",
+                "length": 7,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 3258,
+                "end_index": 3263,
+                "sequence": "'     '",
+                "length": 5,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 3280,
+                "end_index": 3286,
+                "sequence": "'      '",
+                "length": 6,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 3309,
+                "end_index": 3311,
+                "sequence": "'\\n\\n'",
+                "length": 2,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 3333,
+                "end_index": 3335,
+                "sequence": "'\\n\\n'",
+                "length": 2,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 3356,
+                "end_index": 3369,
+                "sequence": "'             '",
+                "length": 13,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 3382,
+                "end_index": 3394,
+                "sequence": "'            '",
+                "length": 12,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 3461,
+                "end_index": 3468,
+                "sequence": "'       '",
+                "length": 7,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 3483,
+                "end_index": 3491,
+                "sequence": "'        '",
+                "length": 8,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 3513,
+                "end_index": 3516,
+                "sequence": "'   '",
+                "length": 3,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 3522,
+                "end_index": 3529,
+                "sequence": "'       '",
+                "length": 7,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 3535,
+                "end_index": 3552,
+                "sequence": "'                 '",
+                "length": 17,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 3562,
+                "end_index": 3577,
+                "sequence": "'               '",
+                "length": 15,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 3585,
+                "end_index": 3590,
+                "sequence": "'     '",
+                "length": 5,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 3598,
+                "end_index": 3613,
+                "sequence": "'               '",
+                "length": 15,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 3646,
+                "end_index": 3651,
+                "sequence": "'     '",
+                "length": 5,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 3654,
+                "end_index": 3674,
+                "sequence": "'                    '",
+                "length": 20,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 3695,
+                "end_index": 3699,
+                "sequence": "'    '",
+                "length": 4,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 3707,
+                "end_index": 3712,
+                "sequence": "'     '",
+                "length": 5,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 3758,
+                "end_index": 3760,
+                "sequence": "'  '",
+                "length": 2,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 3761,
+                "end_index": 3763,
+                "sequence": "'\\n\\n'",
+                "length": 2,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 3766,
+                "end_index": 3768,
+                "sequence": "'\\n\\n'",
+                "length": 2,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 3775,
+                "end_index": 3777,
+                "sequence": "'\\n\\n'",
+                "length": 2,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 3940,
+                "end_index": 3944,
+                "sequence": "'\\n   '",
+                "length": 4,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 3975,
+                "end_index": 3979,
+                "sequence": "'\\n   '",
+                "length": 4,
+                "description": "连续的多个空白字符"
+            },
+            {
+                "start_index": 4016,
+                "end_index": 4020,
+                "sequence": "'\\n   '",
+                "length": 4,
+                "description": "连续的多个空白字符"
+            }
+        ],
+        "normalized_chars": [
+            {
+                "index": 6,
+                "original_char": "：",
+                "original_codepoint": "U+FF1A",
+                "normalized_char": ":",
+                "normalized_codepoint": "U+003A",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 28,
+                "original_char": "：",
+                "original_codepoint": "U+FF1A",
+                "normalized_char": ":",
+                "normalized_codepoint": "U+003A",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 47,
+                "original_char": "：",
+                "original_codepoint": "U+FF1A",
+                "normalized_char": ":",
+                "normalized_codepoint": "U+003A",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 124,
+                "original_char": "：",
+                "original_codepoint": "U+FF1A",
+                "normalized_char": ":",
+                "normalized_codepoint": "U+003A",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 158,
+                "original_char": "：",
+                "original_codepoint": "U+FF1A",
+                "normalized_char": ":",
+                "normalized_codepoint": "U+003A",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 178,
+                "original_char": "（",
+                "original_codepoint": "U+FF08",
+                "normalized_char": "(",
+                "normalized_codepoint": "U+0028",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 183,
+                "original_char": "）",
+                "original_codepoint": "U+FF09",
+                "normalized_char": ")",
+                "normalized_codepoint": "U+0029",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 197,
+                "original_char": "（",
+                "original_codepoint": "U+FF08",
+                "normalized_char": "(",
+                "normalized_codepoint": "U+0028",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 204,
+                "original_char": "）",
+                "original_codepoint": "U+FF09",
+                "normalized_char": ")",
+                "normalized_codepoint": "U+0029",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 218,
+                "original_char": "（",
+                "original_codepoint": "U+FF08",
+                "normalized_char": "(",
+                "normalized_codepoint": "U+0028",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 224,
+                "original_char": "）",
+                "original_codepoint": "U+FF09",
+                "normalized_char": ")",
+                "normalized_codepoint": "U+0029",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 238,
+                "original_char": "（",
+                "original_codepoint": "U+FF08",
+                "normalized_char": "(",
+                "normalized_codepoint": "U+0028",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 244,
+                "original_char": "）",
+                "original_codepoint": "U+FF09",
+                "normalized_char": ")",
+                "normalized_codepoint": "U+0029",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 258,
+                "original_char": "（",
+                "original_codepoint": "U+FF08",
+                "normalized_char": "(",
+                "normalized_codepoint": "U+0028",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 265,
+                "original_char": "）",
+                "original_codepoint": "U+FF09",
+                "normalized_char": ")",
+                "normalized_codepoint": "U+0029",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 275,
+                "original_char": "：",
+                "original_codepoint": "U+FF1A",
+                "normalized_char": ":",
+                "normalized_codepoint": "U+003A",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 281,
+                "original_char": "，",
+                "original_codepoint": "U+FF0C",
+                "normalized_char": ",",
+                "normalized_codepoint": "U+002C",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 319,
+                "original_char": "：",
+                "original_codepoint": "U+FF1A",
+                "normalized_char": ":",
+                "normalized_codepoint": "U+003A",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 359,
+                "original_char": "：",
+                "original_codepoint": "U+FF1A",
+                "normalized_char": ":",
+                "normalized_codepoint": "U+003A",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 399,
+                "original_char": "（",
+                "original_codepoint": "U+FF08",
+                "normalized_char": "(",
+                "normalized_codepoint": "U+0028",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 406,
+                "original_char": "）",
+                "original_codepoint": "U+FF09",
+                "normalized_char": ")",
+                "normalized_codepoint": "U+0029",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 439,
+                "original_char": "（",
+                "original_codepoint": "U+FF08",
+                "normalized_char": "(",
+                "normalized_codepoint": "U+0028",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 443,
+                "original_char": "）",
+                "original_codepoint": "U+FF09",
+                "normalized_char": ")",
+                "normalized_codepoint": "U+0029",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 457,
+                "original_char": "（",
+                "original_codepoint": "U+FF08",
+                "normalized_char": "(",
+                "normalized_codepoint": "U+0028",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 462,
+                "original_char": "）",
+                "original_codepoint": "U+FF09",
+                "normalized_char": ")",
+                "normalized_codepoint": "U+0029",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 472,
+                "original_char": "：",
+                "original_codepoint": "U+FF1A",
+                "normalized_char": ":",
+                "normalized_codepoint": "U+003A",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 516,
+                "original_char": "（",
+                "original_codepoint": "U+FF08",
+                "normalized_char": "(",
+                "normalized_codepoint": "U+0028",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 522,
+                "original_char": "）",
+                "original_codepoint": "U+FF09",
+                "normalized_char": ")",
+                "normalized_codepoint": "U+0029",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 534,
+                "original_char": "（",
+                "original_codepoint": "U+FF08",
+                "normalized_char": "(",
+                "normalized_codepoint": "U+0028",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 541,
+                "original_char": "）",
+                "original_codepoint": "U+FF09",
+                "normalized_char": ")",
+                "normalized_codepoint": "U+0029",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 553,
+                "original_char": "（",
+                "original_codepoint": "U+FF08",
+                "normalized_char": "(",
+                "normalized_codepoint": "U+0028",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 558,
+                "original_char": "，",
+                "original_codepoint": "U+FF0C",
+                "normalized_char": ",",
+                "normalized_codepoint": "U+002C",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 564,
+                "original_char": "）",
+                "original_codepoint": "U+FF09",
+                "normalized_char": ")",
+                "normalized_codepoint": "U+0029",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 595,
+                "original_char": "：",
+                "original_codepoint": "U+FF1A",
+                "normalized_char": ":",
+                "normalized_codepoint": "U+003A",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 602,
+                "original_char": "，",
+                "original_codepoint": "U+FF0C",
+                "normalized_char": ",",
+                "normalized_codepoint": "U+002C",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 618,
+                "original_char": "（",
+                "original_codepoint": "U+FF08",
+                "normalized_char": "(",
+                "normalized_codepoint": "U+0028",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 638,
+                "original_char": "）",
+                "original_codepoint": "U+FF09",
+                "normalized_char": ")",
+                "normalized_codepoint": "U+0029",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 646,
+                "original_char": "，",
+                "original_codepoint": "U+FF0C",
+                "normalized_char": ",",
+                "normalized_codepoint": "U+002C",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 679,
+                "original_char": "（",
+                "original_codepoint": "U+FF08",
+                "normalized_char": "(",
+                "normalized_codepoint": "U+0028",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 685,
+                "original_char": "）",
+                "original_codepoint": "U+FF09",
+                "normalized_char": ")",
+                "normalized_codepoint": "U+0029",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 696,
+                "original_char": "：",
+                "original_codepoint": "U+FF1A",
+                "normalized_char": ":",
+                "normalized_codepoint": "U+003A",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 703,
+                "original_char": "，",
+                "original_codepoint": "U+FF0C",
+                "normalized_char": ",",
+                "normalized_codepoint": "U+002C",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 734,
+                "original_char": "：",
+                "original_codepoint": "U+FF1A",
+                "normalized_char": ":",
+                "normalized_codepoint": "U+003A",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 770,
+                "original_char": "：",
+                "original_codepoint": "U+FF1A",
+                "normalized_char": ":",
+                "normalized_codepoint": "U+003A",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 776,
+                "original_char": "，",
+                "original_codepoint": "U+FF0C",
+                "normalized_char": ",",
+                "normalized_codepoint": "U+002C",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 787,
+                "original_char": "，",
+                "original_codepoint": "U+FF0C",
+                "normalized_char": ",",
+                "normalized_codepoint": "U+002C",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 817,
+                "original_char": "：",
+                "original_codepoint": "U+FF1A",
+                "normalized_char": ":",
+                "normalized_codepoint": "U+003A",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 848,
+                "original_char": "：",
+                "original_codepoint": "U+FF1A",
+                "normalized_char": ":",
+                "normalized_codepoint": "U+003A",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 855,
+                "original_char": "，",
+                "original_codepoint": "U+FF0C",
+                "normalized_char": ",",
+                "normalized_codepoint": "U+002C",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 893,
+                "original_char": "：",
+                "original_codepoint": "U+FF1A",
+                "normalized_char": ":",
+                "normalized_codepoint": "U+003A",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 900,
+                "original_char": "，",
+                "original_codepoint": "U+FF0C",
+                "normalized_char": ",",
+                "normalized_codepoint": "U+002C",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 917,
+                "original_char": "（",
+                "original_codepoint": "U+FF08",
+                "normalized_char": "(",
+                "normalized_codepoint": "U+0028",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 941,
+                "original_char": "）",
+                "original_codepoint": "U+FF09",
+                "normalized_char": ")",
+                "normalized_codepoint": "U+0029",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 959,
+                "original_char": "：",
+                "original_codepoint": "U+FF1A",
+                "normalized_char": ":",
+                "normalized_codepoint": "U+003A",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 971,
+                "original_char": "，",
+                "original_codepoint": "U+FF0C",
+                "normalized_char": ",",
+                "normalized_codepoint": "U+002C",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 1264,
+                "original_char": "，",
+                "original_codepoint": "U+FF0C",
+                "normalized_char": ",",
+                "normalized_codepoint": "U+002C",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 1347,
+                "original_char": "，",
+                "original_codepoint": "U+FF0C",
+                "normalized_char": ",",
+                "normalized_codepoint": "U+002C",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 1509,
+                "original_char": "，",
+                "original_codepoint": "U+FF0C",
+                "normalized_char": ",",
+                "normalized_codepoint": "U+002C",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 1694,
+                "original_char": "，",
+                "original_codepoint": "U+FF0C",
+                "normalized_char": ",",
+                "normalized_codepoint": "U+002C",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 1947,
+                "original_char": "，",
+                "original_codepoint": "U+FF0C",
+                "normalized_char": ",",
+                "normalized_codepoint": "U+002C",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 2204,
+                "original_char": "，",
+                "original_codepoint": "U+FF0C",
+                "normalized_char": ",",
+                "normalized_codepoint": "U+002C",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 2292,
+                "original_char": "，",
+                "original_codepoint": "U+FF0C",
+                "normalized_char": ",",
+                "normalized_codepoint": "U+002C",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 2372,
+                "original_char": "，",
+                "original_codepoint": "U+FF0C",
+                "normalized_char": ",",
+                "normalized_codepoint": "U+002C",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 2379,
+                "original_char": "（",
+                "original_codepoint": "U+FF08",
+                "normalized_char": "(",
+                "normalized_codepoint": "U+0028",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 2392,
+                "original_char": "）",
+                "original_codepoint": "U+FF09",
+                "normalized_char": ")",
+                "normalized_codepoint": "U+0029",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 2609,
+                "original_char": "，",
+                "original_codepoint": "U+FF0C",
+                "normalized_char": ",",
+                "normalized_codepoint": "U+002C",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 2741,
+                "original_char": "：",
+                "original_codepoint": "U+FF1A",
+                "normalized_char": ":",
+                "normalized_codepoint": "U+003A",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 2752,
+                "original_char": "，",
+                "original_codepoint": "U+FF0C",
+                "normalized_char": ",",
+                "normalized_codepoint": "U+002C",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 2805,
+                "original_char": "：",
+                "original_codepoint": "U+FF1A",
+                "normalized_char": ":",
+                "normalized_codepoint": "U+003A",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 2825,
+                "original_char": "，",
+                "original_codepoint": "U+FF0C",
+                "normalized_char": ",",
+                "normalized_codepoint": "U+002C",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 2843,
+                "original_char": "，",
+                "original_codepoint": "U+FF0C",
+                "normalized_char": ",",
+                "normalized_codepoint": "U+002C",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 2866,
+                "original_char": "：",
+                "original_codepoint": "U+FF1A",
+                "normalized_char": ":",
+                "normalized_codepoint": "U+003A",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 2882,
+                "original_char": "，",
+                "original_codepoint": "U+FF0C",
+                "normalized_char": ",",
+                "normalized_codepoint": "U+002C",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 2888,
+                "original_char": "，",
+                "original_codepoint": "U+FF0C",
+                "normalized_char": ",",
+                "normalized_codepoint": "U+002C",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 2913,
+                "original_char": "：",
+                "original_codepoint": "U+FF1A",
+                "normalized_char": ":",
+                "normalized_codepoint": "U+003A",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 3175,
+                "original_char": "（",
+                "original_codepoint": "U+FF08",
+                "normalized_char": "(",
+                "normalized_codepoint": "U+0028",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 3186,
+                "original_char": "）",
+                "original_codepoint": "U+FF09",
+                "normalized_char": ")",
+                "normalized_codepoint": "U+0029",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 3219,
+                "original_char": "，",
+                "original_codepoint": "U+FF0C",
+                "normalized_char": ",",
+                "normalized_codepoint": "U+002C",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 3557,
+                "original_char": "，",
+                "original_codepoint": "U+FF0C",
+                "normalized_char": ",",
+                "normalized_codepoint": "U+002C",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 3678,
+                "original_char": "（",
+                "original_codepoint": "U+FF08",
+                "normalized_char": "(",
+                "normalized_codepoint": "U+0028",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 3694,
+                "original_char": "）",
+                "original_codepoint": "U+FF09",
+                "normalized_char": ")",
+                "normalized_codepoint": "U+0029",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 3719,
+                "original_char": "，",
+                "original_codepoint": "U+FF0C",
+                "normalized_char": ",",
+                "normalized_codepoint": "U+002C",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 3752,
+                "original_char": "，",
+                "original_codepoint": "U+FF0C",
+                "normalized_char": ",",
+                "normalized_codepoint": "U+002C",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 3796,
+                "original_char": "：",
+                "original_codepoint": "U+FF1A",
+                "normalized_char": ":",
+                "normalized_codepoint": "U+003A",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 3828,
+                "original_char": "，",
+                "original_codepoint": "U+FF0C",
+                "normalized_char": ",",
+                "normalized_codepoint": "U+002C",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 3869,
+                "original_char": "：",
+                "original_codepoint": "U+FF1A",
+                "normalized_char": ":",
+                "normalized_codepoint": "U+003A",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 3879,
+                "original_char": "（",
+                "original_codepoint": "U+FF08",
+                "normalized_char": "(",
+                "normalized_codepoint": "U+0028",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 3884,
+                "original_char": "）",
+                "original_codepoint": "U+FF09",
+                "normalized_char": ")",
+                "normalized_codepoint": "U+0029",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 3894,
+                "original_char": "（",
+                "original_codepoint": "U+FF08",
+                "normalized_char": "(",
+                "normalized_codepoint": "U+0028",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 3903,
+                "original_char": "）",
+                "original_codepoint": "U+FF09",
+                "normalized_char": ")",
+                "normalized_codepoint": "U+0029",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 3911,
+                "original_char": "（",
+                "original_codepoint": "U+FF08",
+                "normalized_char": "(",
+                "normalized_codepoint": "U+0028",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 3923,
+                "original_char": "）",
+                "original_codepoint": "U+FF09",
+                "normalized_char": ")",
+                "normalized_codepoint": "U+0029",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 3939,
+                "original_char": "：",
+                "original_codepoint": "U+FF1A",
+                "normalized_char": ":",
+                "normalized_codepoint": "U+003A",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 3965,
+                "original_char": "，",
+                "original_codepoint": "U+FF0C",
+                "normalized_char": ",",
+                "normalized_codepoint": "U+002C",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 3997,
+                "original_char": "，",
+                "original_codepoint": "U+FF0C",
+                "normalized_char": ",",
+                "normalized_codepoint": "U+002C",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 4005,
+                "original_char": "，",
+                "original_codepoint": "U+FF0C",
+                "normalized_char": ",",
+                "normalized_codepoint": "U+002C",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 4028,
+                "original_char": "（",
+                "original_codepoint": "U+FF08",
+                "normalized_char": "(",
+                "normalized_codepoint": "U+0028",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 4042,
+                "original_char": "）",
+                "original_codepoint": "U+FF09",
+                "normalized_char": ")",
+                "normalized_codepoint": "U+0029",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            },
+            {
+                "index": 4058,
+                "original_char": "，",
+                "original_codepoint": "U+FF0C",
+                "normalized_char": ",",
+                "normalized_codepoint": "U+002C",
+                "description": "NFKC标准化后改变的字符（潜在同形字符或兼容性字符）"
+            }
+        ]
+    }
+}
